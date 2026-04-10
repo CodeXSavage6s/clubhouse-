@@ -1,0 +1,87 @@
+
+:root {
+  --bg: linear-gradient(180deg, #0f1624, #0b0f17);
+
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-card: #1e293b;
+  --bg-input: #0f172a;
+  
+
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  
+
+  --accent-cyan: #06b6d4;
+  --accent-blue: #3b82f6;
+  --accent-purple: #6366f1;
+  --accent-green: #22c55e;
+  
+
+  --btn-primary-bg: #06b6d4;
+  --btn-primary-text: #0f172a;
+  --btn-secondary-bg: #3b82f6;
+  --btn-secondary-text: #ffffff;
+  
+  --discord-purple: #5865f2;
+  
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  
+  --border-color: #334155;
+  --border-radius: 12px;
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4);
+  
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+}
+
+[data-theme="light"] {
+  --bg: #fff;
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-input: #f1f5f9;
+  
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  
+  --accent-cyan: #0891b2;
+  --accent-blue: #2563eb;
+  --accent-purple: #4f46e5;
+  --accent-green: #16a34a;
+  
+  --btn-primary-bg: #06b6d4;
+  --btn-primary-text: #ffffff;
+  --btn-secondary-bg: #3b82f6;
+  --btn-secondary-text: #ffffff;
+  
+
+  --border-color: #e2e8f0;
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+body {
+
+  max-width: 100vw;
+  background: var(--bg);
+  color: var(--text-primary);
+  overflow: hidden;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.star {
+  animation: twinkle 3s infinite ease-in-out;
+  /* Randomize animation delay in the style object for a better effect */
+}
