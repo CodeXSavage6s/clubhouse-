@@ -1,9 +1,12 @@
-import { useState, useMemo } from 'react'
-import { Outlet, NavLink } from 'react-router-dom';
+import { useState, useMemo, useEffect } from 'react'
+import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import Sidebar from './sidebar.jsx'
+import { useUserContext } from '../context/userContext.jsx'
+
 export default function Layout() {
   const [seen, setSeen] = useState(false)
-
+  const { user } = useUserContext();
+  const navigate = useNavigate()
   // Move the star logic here so it persists across all routes
   const stars = useMemo(() => {
     const starArray = [];
@@ -29,6 +32,17 @@ export default function Layout() {
     }
     return starArray;
   }, []);
+  
+  useEffect(() => {
+    if (!user) { 
+      alert("login first")
+      navigate("/login")
+    }
+    
+    return () => {
+      
+    }
+  }, [])
   
   return (
     <div className="min-h-[100dvh] max-h-[100dvh] flex flex-col relative bg-[#050505] overflow-hidden">

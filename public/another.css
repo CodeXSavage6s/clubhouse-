@@ -85,3 +85,18 @@ body {
   animation: twinkle 3s infinite ease-in-out;
   /* Randomize animation delay in the style object for a better effect */
 }
+
+
+.inputs {
+  height: 40px;
+  background: var(--text-muted);
+  width: 100%;
+  padding: 5px; 
+  padding-inline: 10px;
+  border-radius: 15px;
+  outline: none;
+}
+
+.inputs:focus-within {
+  border: 1px solid red;
+}

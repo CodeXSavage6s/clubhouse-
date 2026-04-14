@@ -1,7 +1,22 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
+import { io } from 'socket.io-client'
+
 
 export default function Chat() {
+  const socket = io('http://localhost:5000/')
+  
   const [text, setText] = useState("")
+  const [connected, setConnected] = useState(socket.connected)
+  
+  useEffect(() => {
+    socket.on('connect', () => setConnected(true));
+    socket.on('disconnect', () => setConnected(false));
+    
+    return () => {
+      socket.off('connect');
+      socket.off('disconnect');
+    }
+  }, [])
   
   // useMemo ensures the stars are only generated once when the component mounts
   const stars = useMemo(() => {
@@ -33,13 +48,16 @@ export default function Chat() {
       <div className="star-background absolute inset-0 z-0">
         {stars}
       </div>
+      <h1>{connected ? "Connected" : "Not Connected"}</h1>
       <h1 className="title relative z-10 text-white text-2xl p-4">Chats</h1>
       <div className="flex-1"></div>
       <div className="relative bg-[var(--bg-secondary)] p-3 px-4 w-[95vw] bottom-[10px] rounded-4xl right-[2.5vw] flex flex-row has-focus:border-2 has-focus:border-[var(--text-muted)] self-end">
         <input type="text" className=" w-full placeholder-[var(--text-muted)] outline-none"
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder="Enter message..."/><button>Send</button>
+        placeholder="Enter message..."/><button>
+          <i className="fa-solid fa-location-arrow text-2xl"></i>
+        </button>
       </div>
     </div>
   );
