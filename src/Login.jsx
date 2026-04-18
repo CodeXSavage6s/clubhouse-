@@ -35,7 +35,7 @@ export default function Login() {
       const result = await response.json()
       
       if (response.ok) {
-      //  localStorage.setItem("user", JSON.stringify(result))
+       localStorage.setItem("user", JSON.stringify(result))
         setUser(result)
         setLoading(false)
         navigate("/")

@@ -75,7 +75,7 @@ export default function Layout() {
       </header>
 
 
-      <main className="flex-1 overflow-auto relative z-10 h-[80vh]" onClick={() => setSeen(false)}>
+      <main className="flex-1 overflow-scroll relative z-10" onClick={() => setSeen(false)}>
         <Outlet />
       </main>
       

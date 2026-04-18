@@ -1,11 +1,13 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { useSocketContext } from '../context/socketContext.jsx';
+import { useUserContext } from '../context/userContext.jsx';
 
 export default function Chat() {
   const [chats, setChats] = useState([]);
-  const [message, setMessage] = useState([]);
   const [text, setText] = useState("");
   const { socket, connected } = useSocketContext();
+  const { user } = useUserContext();
+  const scrollRef = useRef(null);
 
   const stars = useMemo(() => {
     const starArray = [];
@@ -37,39 +39,48 @@ export default function Chat() {
     setText("");
   };
 
+  // Scroll to bottom when chats update
+  useEffect(() => {
+  scrollRef.current?.scrollTo({
+    top: scrollRef.current.scrollHeight,
+    behavior: "smooth"
+  });
+}, [chats]);
+
+  // Fetch initial chats
+  useEffect(() => {
+    const fetchChats = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/chats", {
+          credentials: "include"
+        });
+        
+        if (response.ok) {
+          const result = await response.json();
+          console.log(result);
+          setChats(result || []);
+        }
+      } catch (err) {
+        console.error("Error fetching chats:", err);
+        // alert("error", err); // optional
+      }
+    };
+
+    fetchChats();
+  }, []); // Run only once on mount
+
+  // Socket listeners
   useEffect(() => {
     if (!socket) return;
-  
-  
-  const fetchChats = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/chats");
-      
-      if (response.ok) {
-        const result = await response.json();
-        // result is now the actual data, not a Promise object
-        console.log(result); 
-        alert(JSON.stringify(result, null, 2));
-        //alert(result)
-        setChats(result); // Usually you'd update state here
-      }
-    } catch (err) {
-      alert("error", err)
-      console.error("error", err);
-    }
-  };
 
-  fetchChats();
-  
     const handleNewMessage = (data) => {
-  setChats((prev) => {
-    if (Array.isArray(data)) {
-      return [...prev, ...data]; // Spread the history array
-    }
-    return [...prev, data]; // Append single new message
-  });
-};
-
+      setChats((prev) => {
+        if (Array.isArray(data)) {
+          return [...prev, ...data]; // history
+        }
+        return [...prev, data]; // single message
+      });
+    };
 
     socket.on("load_message", handleNewMessage);
     socket.on("new_message", handleNewMessage);
@@ -81,29 +92,36 @@ export default function Chat() {
   }, [socket]);
 
   return (
-    <div className="flex flex-col h-[85vh] relative overflow-hidden bg-black">
+    <div className="flex flex-col h-[75vh] relative overflow-hidden bg-black">
       <div className="star-background absolute inset-0 z-0">
         {stars}
       </div>
 
-      <div className="relative z-10 p-4 border-b border-gray-800">
-        <h1 className="text-white text-2xl font-bold">Chats</h1>
+      <div className="fixed z-999">
         <p className={connected ? "text-green-500" : "text-red-500"}>
           {connected ? "● Connected" : "● Disconnected"}
         </p>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 relative z-10">
+      <div className="flex-1 overflow-y-auto p-4 relative z-10 flex w-full flex-col " ref={scrollRef}>
         {chats.map((msg, index) => (
-          <div key={index} className="mb-2">
+          <div 
+            key={index} 
+            className={`flex flex-col mb-2 p-3 bg-[var(--bg-input)] rounded max-w-[60%] rounded-tl-4xl rounded-tr-4xl rounded-br-4xl skew-x-[-5deg]
+              ${msg.username ===  "You" ? "self-end bg-[var(--bg-secondary)] rounded-br-[0px] rounded-bl-4xl skew-x-[5deg]" : ""}`}
+          >
+            <span className="text-[var(--text-muted)]">{msg.username}</span>
             <h1 className="text-white text-xl font-medium">{msg.text}</h1>
+            <b className="text-[small] self-end">
+              {new Date(msg.created_at).toLocaleString()}
+            </b>
           </div>
         ))}
       </div>
 
       <form 
         onSubmit={sendMessage}
-        className="relative z-10 bg-[var(--bg-secondary)] p-3 px-4 w-[95vw] mb-4 mx-auto rounded-full flex flex-row items-center border border-gray-700"
+        className="self-end z-10 bg-[var(--bg-secondary)] p-3 px-4 w-full rounded-full flex flex-row items-center border border-gray-700"
       >
         <input 
           type="text" 
