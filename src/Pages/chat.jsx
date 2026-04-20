@@ -8,6 +8,9 @@ export default function Chat() {
   const { socket, connected } = useSocketContext();
   const { user } = useUserContext();
   const scrollRef = useRef(null);
+  const [file, setFile] = useState("")
+  const [img, setImg] = useState("")
+  const [isUploading, setIsUploading] = useState(false)
 
   const stars = useMemo(() => {
     const starArray = [];
@@ -35,7 +38,7 @@ export default function Chat() {
     if (!text.trim()) return;
     if (!socket) return alert("Not connected");
 
-    socket.emit("send_message", { text });
+    socket.emit("send_message", { text, img });
     setText("");
   };
 
@@ -90,6 +93,31 @@ export default function Chat() {
       socket.off("new_message", handleNewMessage);
     };
   }, [socket]);
+  
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    alert("file", file)
+    setIsUploading(true)
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await fetch("http://localhost:5000/upload", {
+        credentials: 'include',
+        method: 'POST',
+        body: formData
+      });
+      const result = await response.json();
+      if (response.ok) {
+        setImg(result?.url);
+        setIsUploading(false)
+      }
+    } catch (err) {
+      console.error(err);
+      setIsUploading(false)
+    }
+  };
 
   return (
     <div className="flex flex-col h-[75vh] relative overflow-hidden bg-black">
@@ -105,6 +133,7 @@ export default function Chat() {
 
       <div className="flex-1 overflow-y-auto p-4 relative z-10 flex w-full flex-col " ref={scrollRef}>
         {chats.map((msg, index) => (
+        <div className="max-h-[400px] w-full flex flex-col">
           <div 
             key={index} 
             className={`flex flex-col mb-2 p-3 bg-[var(--bg-input)] rounded max-w-[60%] rounded-tl-4xl rounded-tr-4xl rounded-br-4xl skew-x-[-5deg]
@@ -116,13 +145,23 @@ export default function Chat() {
               {new Date(msg.created_at).toLocaleString()}
             </b>
           </div>
+            <img src={msg.images} className={`h-full w-fit ${msg.username ===  "You" ? "self-end max-h-[300px] w-fit" : ""}`}/>
+        </div>
         ))}
       </div>
-
+      
+      <div className="flex flex-col">
+        <div className="max-h-[100px]">
+          <img src={img} className="h-full"/>
+        </div>
       <form 
         onSubmit={sendMessage}
         className="self-end z-10 bg-[var(--bg-secondary)] p-3 px-4 w-full rounded-full flex flex-row items-center border border-gray-700"
       >
+      <input type="file" id="file" name="file"  className="z-999 hidden" onChange={handleFileUpload}/>
+      <label htmlFor="file" >
+        <i className={`fa-solid ${isUploading ? 'fa-spinner animate-spin' : 'fa-plus'} text-xl`}></i>
+      </label>
         <input 
           type="text" 
           className="bg-transparent text-white w-full outline-none px-2"
@@ -134,6 +173,7 @@ export default function Chat() {
           <i className="fa-solid fa-location-arrow text-2xl"></i>
         </button>
       </form>
+      </div>
     </div>
   );
 }
