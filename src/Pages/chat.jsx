@@ -8,8 +8,7 @@ export default function Chat() {
   const { socket, connected } = useSocketContext();
   const { user } = useUserContext();
   const scrollRef = useRef(null);
-  const [file, setFile] = useState("")
-  const [img, setImg] = useState("")
+  const [img, setImg] = useState([])
   const [isUploading, setIsUploading] = useState(false)
 
   const stars = useMemo(() => {
@@ -95,13 +94,14 @@ export default function Chat() {
   }, [socket]);
   
   const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files;
     if (!file) return;
     alert("file", file)
     setIsUploading(true)
     const formData = new FormData();
-    formData.append('file', file);
-
+    for (let i = 0; i < file.length; i++){
+    formData.append('file', file[i]);
+}
     try {
       const response = await fetch("http://localhost:5000/upload", {
         credentials: 'include',
@@ -145,20 +145,24 @@ export default function Chat() {
               {new Date(msg.created_at).toLocaleString()}
             </b>
           </div>
-            <img src={msg.images} className={`h-full w-fit ${msg.username ===  "You" ? "self-end max-h-[300px] w-fit" : ""}`}/>
+            <img src={msg.images} className={`h-full w-fit ${msg.username ===  "You" ? "self-end max-h-[300px] w-fit" : ""}`} loading="lazy"/>
         </div>
         ))}
       </div>
       
-      <div className="flex flex-col">
-        <div className="max-h-[100px]">
-          <img src={img} className="h-full"/>
+      <div className="flex flex-col fixed bottom-5 w-full z-999">
+        <div className=" flex flex-row gap-4 overflow-auto h-30">
+          {img.map(i => (
+          <div className="h-30 aspect-video flex-shrink-0">
+          <img src={i} className="h-full w-full object-cover rounded-lg"/>
+          </div>
+          ))}
         </div>
       <form 
         onSubmit={sendMessage}
         className="self-end z-10 bg-[var(--bg-secondary)] p-3 px-4 w-full rounded-full flex flex-row items-center border border-gray-700"
       >
-      <input type="file" id="file" name="file"  className="z-999 hidden" onChange={handleFileUpload}/>
+      <input type="file" id="file" name="file"  className="z-999 hidden" onChange={handleFileUpload} multiple/>
       <label htmlFor="file" >
         <i className={`fa-solid ${isUploading ? 'fa-spinner animate-spin' : 'fa-plus'} text-xl`}></i>
       </label>

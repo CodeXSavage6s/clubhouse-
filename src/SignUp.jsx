@@ -83,7 +83,7 @@ export default function SignUp() {
         <button 
           type="submit"
           disabled={loading}
-          className={`w-full text-center inputs text-2xl font-bold italic font-serif mt-5 py-2 rounded ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600 text-white"}`}
+          className={`w-full text-center inputs text-2xl font-bold italic font-serif mt-5 py-2 rounded bg-blue-500 ${loading ? "bg-gray-400! cursor-not-allowed" : "bg-[var(--accent-purple)]! hover:bg-blue-600 text-white"}`}
         >
           {loading ? "Signing up..." : "Sign-Up"}
         </button>

@@ -67,6 +67,34 @@
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
+@media (prefers-color-scheme="light") {
+  :root {
+  --bg: #fff;
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-input: #f1f5f9;
+  
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  
+  --accent-cyan: #0891b2;
+  --accent-blue: #2563eb;
+  --accent-purple: #4f46e5;
+  --accent-green: #16a34a;
+  
+  --btn-primary-bg: #06b6d4;
+  --btn-primary-text: #ffffff;
+  --btn-secondary-bg: #3b82f6;
+  --btn-secondary-text: #ffffff;
+  
+
+  --border-color: #e2e8f0;
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}}
 
 body {
 
