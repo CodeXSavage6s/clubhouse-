@@ -7,7 +7,7 @@ export default function Sidebar() {
   
   async function handleLogout() {
     try {
-      const response = await fetch("http://localhost:5000/logout", {
+      const response = await fetch("https://clubhouse-backend-v95l.onrender.com/logout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

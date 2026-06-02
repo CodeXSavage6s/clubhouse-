@@ -13,7 +13,7 @@ export default function Settings() {
     formData.append('file', pro)
     
     try {
-    const response = await fetch("http://localhost:5000/profile", {
+    const response = await fetch("https://clubhouse-backend-v95l.onrender.com/profile", {
       credentials: 'include',
       method: 'POST',
       body: formData
@@ -59,6 +59,9 @@ export default function Settings() {
           <p>Status: {User.is_member ? "Member" : "Not Member"}</p>
           <hr className="text-[var(--text-muted)] my-2"/>
         </div>
+      </div>
+      <div className="absolute bg-[var(--bg-primary)] w-[100vw] h-[100vh] z-50">
+        
       </div>
     </div>
     )
