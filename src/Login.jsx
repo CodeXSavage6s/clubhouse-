@@ -23,7 +23,7 @@ export default function Login() {
     }
     
     try {
-      const response = await fetch("https://clubhouse-backend-v95l.onrender.com/login", {
+      const response = await fetch("https://clubhouse-backend-aydg.onrender.com/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

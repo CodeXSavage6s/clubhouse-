@@ -13,7 +13,7 @@ export default function Settings() {
     formData.append('file', pro)
     
     try {
-    const response = await fetch("https://clubhouse-backend-v95l.onrender.com/profile", {
+    const response = await fetch("https://clubhouse-backend-aydg.onrender.com/profile", {
       credentials: 'include',
       method: 'POST',
       body: formData

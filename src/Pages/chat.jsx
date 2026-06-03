@@ -53,7 +53,7 @@ export default function Chat() {
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        const response = await fetch("https://clubhouse-backend-v95l.onrender.com/chats", {
+        const response = await fetch("https://clubhouse-backend-aydg.onrender.com/chats", {
           credentials: "include"
         });
         
@@ -103,7 +103,7 @@ export default function Chat() {
     formData.append('file', file[i]);
 }
     try {
-      const response = await fetch("https://clubhouse-backend-v95l.onrender.com/upload", {
+      const response = await fetch("https://clubhouse-backend-aydg.onrender.com/upload", {
         credentials: 'include',
         method: 'POST',
         body: formData

@@ -24,7 +24,7 @@ export default function SignUp() {
     }
     
     try {
-      const response = await fetch("https://clubhouse-backend-v95l.onrender.com/sign-up", {
+      const response = await fetch("https://clubhouse-backend-aydg.onrender.com/sign-up", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

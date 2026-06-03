@@ -8,7 +8,7 @@ export default function SocketProvider({ children }) {
   const [connected, setConnected] = useState(false)
   
   useEffect (() => {
-    const newSocket = io("https://clubhouse-backend-v95l.onrender.com/", {withCredentials: true})
+    const newSocket = io("https://clubhouse-backend-aydg.onrender.com/", {withCredentials: true})
     setSocket(newSocket)
     
     newSocket.on('connect', () => setConnected(true));

@@ -11,7 +11,7 @@ export default function UserProvider({ children }) {
   useEffect(() => {
     async function verify() {
     try {
-      const response = await fetch("https://clubhouse-backend-v95l.onrender.com/", { credentials: 'include' })
+      const response = await fetch("https://clubhouse-backend-aydg.onrender.com/", { credentials: 'include' })
       
       const result = await response.json()
       alert(JSON.stringify(result, null, 2))
