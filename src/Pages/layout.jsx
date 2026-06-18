@@ -75,8 +75,20 @@ export default function Layout() {
       </header>
 
 
-      <main className="flex-1 overflow-scroll relative z-10" onClick={() => setSeen(false)}>
-        <Outlet />
+      <main className="flex-1 overflow-auto relative z-10" onClick={() => setSeen(false)}>
+        <div className="max-w-7xl mx-auto px-4 py-6 flex gap-6 items-start">
+          {/* Desktop sidebar */}
+          <aside className="hidden md:block w-64 shrink-0">
+            <div className="sticky top-6">
+              <Sidebar />
+            </div>
+          </aside>
+
+          {/* Page content */}
+          <section className="flex-1 min-h-[60vh]">
+            <Outlet />
+          </section>
+        </div>
       </main>
       
       <footer className="relative z-10"></footer>
