@@ -32,7 +32,6 @@ export default function Sidebar() {
         <p> {user?.user.username}</p>
         <p> {user?.user.email}</p>
         <p> {user?.user.created_at}</p>
-        <p> {user?.user.password}</p>
         <p>Status: {user?.user.is_member ? "Member" : "Not a Member"}</p>
       </div>
         <Link to="settings">Manage Your Account</Link>
